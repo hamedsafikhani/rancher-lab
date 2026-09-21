@@ -1,0 +1,21 @@
+# ---- Local config and secrets: NEVER commit ----
+config/lab.env
+*.env
+!versions.env
+!*.env.example
+*.key
+*.srl
+
+# Server certificate contains the lab IP in its SAN
+object-storage/certs/
+
+# mc config stores credentials; keep only the policy file
+object-storage/mc-config/*
+!object-storage/mc-config/pgbackrest-policy.json
+
+# ---- Data ----
+object-storage/data/
+
+# ---- Editor / OS ----
+*.swp
+.DS_Store
