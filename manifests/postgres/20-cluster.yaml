@@ -1,0 +1,44 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-main
+  namespace: postgres
+spec:
+  instances: 2
+  imageName: ${PG_IMAGE}
+  imagePullPolicy: IfNotPresent
+
+  bootstrap:
+    initdb:
+      database: todo
+      owner: todo
+
+  storage:
+    storageClass: local-path
+    size: 2Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+
+  postgresql:
+    parameters:
+      shared_buffers: "128MB"
+      max_connections: "100"
+      archive_timeout: "5min"
+
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: required
+    topologyKey: topology.kubernetes.io/zone
+
+  plugins:
+    - name: pgbackrest.dalibo.com
+      enabled: true
+      isWALArchiver: true
+      parameters:
+        stanzaRef: pg-main
+        pluginConfigRef: pg-main
