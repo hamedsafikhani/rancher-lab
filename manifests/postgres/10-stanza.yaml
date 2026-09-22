@@ -19,6 +19,7 @@ spec:
           archive: 2
           archiveType: full
         cipherConfig:
+          type: aes-256-cbc
           encryptionPass:
             name: pgbackrest-s3
             key: ENCRYPTION_PASS
