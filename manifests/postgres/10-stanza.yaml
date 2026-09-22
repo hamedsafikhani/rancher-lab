@@ -1,0 +1,31 @@
+apiVersion: pgbackrest.dalibo.com/v1
+kind: Stanza
+metadata:
+  name: pg-main
+  namespace: postgres
+spec:
+  stanzaConfiguration:
+    name: pg-main
+    s3Repositories:
+      - bucket: pg-backups
+        endpoint: https://${S3_HOST}:9000
+        region: us-east-1
+        repoPath: /pg-main
+        uriStyle: path
+        verifyTLS: false
+        retentionPolicy:
+          full: 2
+          fullType: count
+          archive: 2
+          archiveType: full
+        cipherConfig:
+          encryptionPass:
+            name: pgbackrest-s3
+            key: ENCRYPTION_PASS
+        secretRef:
+          accessKeyId:
+            name: pgbackrest-s3
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: pgbackrest-s3
+            key: ACCESS_SECRET_KEY

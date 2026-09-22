@@ -1,0 +1,12 @@
+apiVersion: pgbackrest.dalibo.com/v1
+kind: PluginConfig
+metadata:
+  name: pg-main
+  namespace: postgres
+spec:
+  resourcesRequirement:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
